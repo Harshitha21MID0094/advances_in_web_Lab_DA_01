@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIT Entrance Test Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(1, 1, 0, 0.1);
+        }
+
+        .login-form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-form input[type="email"] {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .login-form button {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-form button:hover {
+            background-color: #45a049;
+        }
+
+        .question {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .options input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .options button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .options button:hover {
+            background-color: #45a049;
+        }
+
+        #result-container,
+        #admission-status {
+            font-size: 18px;
+            margin-top: 20px;
+.question,
+        .options label {
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .options label {
+            transition-delay: 0.1s;
+        }
+
+        .options button {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .options label,
+        .options button {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .options button {
+            transition-delay: 0.1s;
+        }
+
+        .container {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: slide-in 0.5s ease-out;
+        }
+
+        @keyframes slide-in {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .question,
+        .options label,
+        .options button {
+            background-color: #ffffff;
+            border: 2px solid #4caf50;
+            color: #4caf50;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .options label:hover,
+        .options button:hover {
+            background-color: #4caf50;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .question {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .options label {
+            font-size: 16px;
+        }
+
+        .options button {
+            font-size: 14px;
+        }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Your existing HTML structure for the quiz application -->
+    <div class="container">
+        <div class="login-form">
+            <label for="email">Enter your VIT Email:</label>
+            <input type="email" id="email" required>
+            <button onclick="startQuiz()">Start Quiz</button>
+        </div>
+        <div id="quiz-container"></div>
+        <div id="result-container"></div>
+        <div id="admission-status" class="admission-status"></div>
+    </div>
+<div id="timer"></div>
+
+    <script>
+       const questions = {
+    "General Science": [
+        {
+            question: "What is the chemical symbol for gold?",
+            options: ["Au", "Ag", "Fe", "Cu"],
+            correctAnswer: "Au",
+            marks: 2
+        },
+        {
+            question: "Which gas is responsible for the greenhouse effect on Earth?",
+            options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Methane"],
+            correctAnswer: "Carbon Dioxide",
+            marks: 2
+        },
+        {
+            question: "What is the largest organ in the human body?",
+            options: ["Heart", "Brain", "Liver", "Skin"],
+            correctAnswer: "Skin",
+            marks: 2
+        },
+        {
+            question: "Which planet is known as the Red Planet?",
+            options: ["Earth", "Mars", "Venus", "Jupiter"],
+            correctAnswer: "Mars",
+            marks: 2
+        },
+        {
+            question: "What is the unit of electric current?",
+            options: ["Volt", "Ampere", "Ohm", "Watt"],
+            correctAnswer: "Ampere",
+            marks: 2
+        },
+        {
+            question: "Which gas do plants absorb for photosynthesis?",
+            options: ["Oxygen", "Carbon Dioxide", "Hydrogen", "Nitrogen"],
+            correctAnswer: "Carbon Dioxide",
+            marks: 2
+        },
+        {
+            question: "What is the chemical symbol for water?",
+            options: ["H2O", "CO2", "O2", "CH4"],
+            correctAnswer: "H2O",
+            marks: 2
+        },
+        {
+            question: "Which element is essential for human bones and teeth?",
+            options: ["Calcium", "Iron", "Potassium", "Sodium"],
+            correctAnswer: "Calcium",
+            marks: 2
+        },
+        {
+            question: "What is the speed of light?",
+            options: ["299,792,458 meters per second", "300,000,000 meters per second", "250,000,000 meters per second", "350,000,000 meters per second"],
+            correctAnswer: "299,792,458 meters per second",
+            marks: 2
+        },
+        {
+            question: "Which scientist formulated the theory of relativity?",
+            options: ["Isaac Newton", "Albert Einstein", "Galileo Galilei", "Stephen Hawking"],
+            correctAnswer: "Albert Einstein",
+            marks: 2
+        }
+    ],
+"General Knowledge": [
+                // General Knowledge questions (5 questions, 15 minutes, 10 marks)
+                {
+                    question: "Which planet is known as the 'Red Planet'?",
+                    options: ["Earth", "Mars", "Venus", "Jupiter"],
+                    correctAnswer: "Mars",
+                    marks: 2
+                },
+                {
+                    question: "Who painted the Mona Lisa?",
+                    options: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
+                    correctAnswer: "Leonardo da Vinci",
+                    marks: 2
+                },
+                {
+                    question: "What is the capital city of France?",
+                    options: ["London", "Paris", "Berlin", "Rome"],
+                    correctAnswer: "Paris",
+                    marks: 2
+                },
+                {
+                    question: "Who is the author of 'Romeo and Juliet'?",
+                    options: ["William Shakespeare", "Jane Austen", "Charles Dickens", "Mark Twain"],
+                    correctAnswer: "William Shakespeare",
+                    marks: 2
+                },
+                {
+                    question: "In which year did Christopher Columbus reach the Americas?",
+                    options: ["1492", "1507", "1533", "1601"],
+                    correctAnswer: "1492",
+                    marks: 2
+                }
+            ],
+             
+"Logo Identification": [
+            {
+                question: "Which company does this logo belong to?",
+                logoUrl: "whatsapp.jpeg", // Updated image URL
+                options: ["whatsapp", "BMW", "ZARA", "APPLE"],
+                correctAnswer: "whatsapp",
+                marks: 2
+            },
+            {
+                question: "Which company does this logo belong to?",
+                logoUrl: "insta.jpeg", // Updated image URL
+                options: ["TWITTER", "INSTAGRAM", "GOOGLE", "BENZ"],
+                correctAnswer: "INSTAGRAM",
+                marks: 2
+            },
+            {
+                question: "Which company does this logo belong to?",
+                logoUrl: "utube.jpeg", // Updated image URL
+                options: ["SKODA", "APPLE", "YOUTUBE", "TWITTER"],
+                correctAnswer: "YOUTUBE",
+                marks: 2
+            },
+            {
+                question: "Which company does this logo belong to?",
+                logoUrl: "audi.png", // Updated image URL
+                options: ["BMW", "BENZ", "APPLE", "AUDI"],
+                correctAnswer: "AUDI",
+                marks: 2
+            },
+            {
+                question: "Which company does this logo belong to?",
+                logoUrl: "white-apple-logo-wallpaper.jpg", // Updated image URL
+                options: ["APPLE", "INSTAGRAM", "YOUTUBE", "AUDI"],
+                correctAnswer: "APPLE",
+                marks: 2
+            }
+            // ... Add more logo identification questions following the same format
+        ]
+        };
+    // Add more rounds and questions for General Knowledge, Logo Identification, etc.
+
+
+         let currentRound = 0;
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        const quizContainer = document.getElementById('quiz-container');
+        const resultContainer = document.getElementById('result-container');
+        const admissionStatusContainer = document.getElementById('admission-status');
+
+        function startQuiz() {
+            // Check email validity here if needed
+
+            if (currentRound < Object.keys(questions).length) {
+                const currentRoundName = Object.keys(questions)[currentRound];
+                const currentQuestion = questions[currentRoundName][currentQuestionIndex];
+                renderQuestion(currentRoundName, currentQuestion);
+            } else {
+                showResult();
+            }
+        }
+
+        function renderQuestion(round, question) {
+            quizContainer.innerHTML = `
+                <div class="question">${round} - ${question.question}</div>
+                <div class="options">
+                    ${question.options.map(option => `<label><input type="radio" name="answer" value="${option}"> ${option}</label>`).join('')}
+                </div>
+                <button onclick="submitAnswer()">Next</button>
+            `;
+        }
+
+        function submitAnswer() {
+            const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+            if (selectedAnswer) {
+                const currentRoundName = Object.keys(questions)[currentRound];
+                const currentQuestion = questions[currentRoundName][currentQuestionIndex];
+                if (selectedAnswer.value === currentQuestion.correctAnswer) {
+                    score += currentQuestion.marks;
+                }
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions[currentRoundName].length) {
+                    renderQuestion(currentRoundName, questions[currentRoundName][currentQuestionIndex]);
+                } else {
+                    currentRound++;
+                    currentQuestionIndex = 0;
+                    startQuiz();
+                }
+            }
+        }
+
+        function showResult() {
+            let admissionStatus = '';
+            if (score > 9.5) {
+                admissionStatus = 'Admitted in Vellore Campus';
+            } else if (score >= 7.5) {
+                admissionStatus = 'Admitted in Chennai Campus';
+            } else if (score >= 6.5) {
+                admissionStatus = 'Admitted in Amravati Campus';
+            } else {
+                admissionStatus = 'Not Admitted';
+            }
+
+            resultContainer.textContent = `Total Score: ${score}`;
+            admissionStatusContainer.textContent = `Admission Status: ${admissionStatus}`;
+        }
+
+const roundTimes = [15 * 60, 15 * 60, 8 * 60]; // Round times in seconds: 15 minutes, 15 minutes, 8 minutes
+let timer;
+let timeLeft;
+
+function startTimer() {
+    timer = setInterval(function () {
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            // Time is up, handle it here
+            currentRound++;
+            currentQuestionIndex = 0;
+            startQuiz();
+        } else {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            timeLeft--;
+        }
+    }, 1000);
+}
+
+function startQuiz() {
+    // Check email validity here if needed
+
+    if (currentRound < Object.keys(questions).length) {
+        timeLeft = roundTimes[currentRound]; // Set time for the current round
+        startTimer();
+        const currentRoundName = Object.keys(questions)[currentRound];
+        const currentQuestion = questions[currentRoundName][currentQuestionIndex];
+        renderQuestion(currentRoundName, currentQuestion);
+    } else {
+        showResult();
+    }
+}
+
+// Rest of your code remains unchanged
+
+    </script>
+</body>
+
+</html>
